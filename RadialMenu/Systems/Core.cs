@@ -41,18 +41,29 @@ public class Core : ModSystem
         return GetButtons(capi).Find(x => x.Id == buttonId) ?? new RadialMenuButton() { Id = buttonId };
     }
 
-    public static void SetButton(ICoreClientAPI capi, RadialMenuButton newButton)
+    public static void SetButton(ICoreClientAPI capi, RadialMenuButton newButton, bool remove = true)
     {
         RemoveButton(capi, newButton.Id);
         GetInstance(capi).Config.Buttons.Add(newButton);
-
-        ModConfig.WriteConfig(capi, ConfigRadialMenu.ConfigName, GetInstance(capi).Config);
-        GetInstance(capi).Config = ModConfig.ReadConfig<ConfigRadialMenu>(capi, ConfigRadialMenu.ConfigName);
+        UpdateConfig(capi);
     }
 
     public static void RemoveButton(ICoreClientAPI capi, string buttonId)
     {
         GetInstance(capi).Config.Buttons.RemoveAll(x => x.Id == buttonId);
+        UpdateConfig(capi);
+    }
+
+    private static void UpdateConfig(ICoreClientAPI capi)
+    {
+        foreach (RadialMenuButton button in GetInstance(capi).Config.Buttons)
+        {
+            if (button.IconStack != null)
+            {
+                // it will crash if ResolvedItemstack is not set to null
+                button.IconStack.ResolvedItemstack = null;
+            }
+        }
 
         ModConfig.WriteConfig(capi, ConfigRadialMenu.ConfigName, GetInstance(capi).Config);
         GetInstance(capi).Config = ModConfig.ReadConfig<ConfigRadialMenu>(capi, ConfigRadialMenu.ConfigName);
