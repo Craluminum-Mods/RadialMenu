@@ -1,0 +1,12 @@
+{
+  "type": "code",
+  "side": "client",
+  "modid": "radialmenu",
+  "name": "Radial Menu",
+  "authors": [ "Craluminum2413" ],
+  "description": "Radial menu to assign hotkeys and commands",
+  "version": "1.0.0",
+  "dependencies": {
+    "game": "1.20.0"
+  }
+}
