@@ -31,7 +31,7 @@ public class RadialMenuButton
     public EnumButtonAction Action { get; set; } = EnumButtonAction.None;
 
     /// <summary>
-    /// The item used to render this button's icon. If null, <see cref="IconString"/> is used as fallback.
+    /// The item used to render this button's icon. If null, <see cref="IconInternal"/> is used as fallback.
     /// </summary>
     [JsonProperty]
     public JsonItemStack? IconStack { get; set; }
@@ -46,10 +46,10 @@ public class RadialMenuButton
     /// A fallback internal icon string, used if <see cref="IconStack"/> is null.
     /// </summary>
     [JsonProperty]
-    public string? IconString { get; set; }
+    public string? IconInternal { get; set; }
 
     /// <summary>
-    /// Optional file path to a custom SVG icon. Used if neither <see cref="IconStack"/> nor <see cref="IconString"/> are set.
+    /// Optional file path to a custom SVG icon. Used if neither <see cref="IconStack"/> nor <see cref="IconInternal"/> are set.
     /// </summary>
     [JsonProperty]
     public string? IconSvg { get; set; }
@@ -75,7 +75,7 @@ public class RadialMenuButton
             Action = Action,
             IconStack = IconStack?.Clone(),
             IconColor = IconColor,
-            IconString = IconString,
+            IconInternal = IconInternal,
             IconSvg = IconSvg,
             Hotkey = Hotkey,
             Commands = Commands.ToList()

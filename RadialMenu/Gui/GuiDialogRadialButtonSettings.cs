@@ -70,7 +70,7 @@ public class GuiDialogRadialButtonSettings : GuiDialog
 
         double bgPadding = GuiElement.scaled(15);
         double height = GuiElement.scaled(30);
-        double gap = GuiElement.scaled(10);
+        double spacing = GuiElement.scaled(10);
         double buttonWidth = GuiElement.scaled(80);
         double gridHeight = GuiElement.scaled(500);
         double gridWidth = GuiElement.scaled(500);
@@ -87,7 +87,7 @@ public class GuiDialogRadialButtonSettings : GuiDialog
         ElementBounds backgroundBounds = childBounds.WithFixedPadding(bgPadding);
 
         ElementBounds leftBounds = ElementBounds.FixedSize(gridWidth, height).WithFixedOffset(0, height);
-        ElementBounds rightBounds = leftBounds.RightCopy(gap);
+        ElementBounds rightBounds = leftBounds.RightCopy(spacing);
 
         try
         {
@@ -100,23 +100,24 @@ public class GuiDialogRadialButtonSettings : GuiDialog
             SingleComposer.GetHorizontalTabs("tabs").activeElement = curTab;
 
             SingleComposer.AddButton(Lang.Get("general-save"), OnSave, rightBounds.FlatCopy().WithFixedSize(buttonWidth, height), CairoFont.ButtonText(), key: "save");
-            SingleComposer.AddButton(Lang.Get("general-delete"), OnDelete, BelowCopySet(ref rightBounds, fixedDeltaY: gap).WithFixedSize(buttonWidth, height), CairoFont.ButtonText(), key: "delete");
+            SingleComposer.AddButton(Lang.Get("general-delete"), OnDelete, BelowCopySet(ref rightBounds, fixedDeltaY: spacing).WithFixedSize(buttonWidth, height), CairoFont.ButtonText(), key: "delete");
+
             #region Name
             if (curTab == 0)
             {
-                SingleComposer.AddTextInput(BelowCopySet(ref leftBounds, fixedDeltaY: gap), OnNameChanged, key: "button-name");
+                SingleComposer.AddTextInput(BelowCopySet(ref leftBounds, fixedDeltaY: spacing), OnNameChanged, key: "editname");
             }
             #endregion
 
             #region Icon
             if (curTab == 1)
             {
-                AddButtonPreview(gap, buttonWidth, ref leftBounds);
+                AddButtonPreview(spacing, buttonWidth, ref leftBounds);
 
                 SingleComposer.AddIconListPickerExtended(
                     icons: SvgIcons.ToArray(),
                     onToggle: OnIconSelected,
-                    startBounds: BelowCopySet(ref leftBounds, fixedDeltaY: gap).WithFixedSize(iconSize + 5, iconSize + 5),
+                    startBounds: BelowCopySet(ref leftBounds, fixedDeltaY: spacing).WithFixedSize(iconSize + 5, iconSize + 5),
                     maxLineWidth: (int)gridWidth - iconSize,
                     key: "iconpicker");
             }
@@ -125,12 +126,12 @@ public class GuiDialogRadialButtonSettings : GuiDialog
             #region Color
             if (curTab == 2)
             {
-                AddButtonPreview(gap, buttonWidth, ref leftBounds);
+                AddButtonPreview(spacing, buttonWidth, ref leftBounds);
 
                 SingleComposer.AddColorListPicker(
                     colors: Colors.ToArray(),
                     onToggle: OnColorSelected,
-                    startBounds: BelowCopySet(ref leftBounds, fixedDeltaY: gap).WithFixedSize(width: iconSize + 5, height: iconSize + 5),
+                    startBounds: BelowCopySet(ref leftBounds, fixedDeltaY: spacing).WithFixedSize(width: iconSize + 5, height: iconSize + 5),
                     maxLineWidth: (int)gridWidth - iconSize,
                     key: "colorpicker");
             }
@@ -139,7 +140,7 @@ public class GuiDialogRadialButtonSettings : GuiDialog
             #region Actions
             if (curTab == 3)
             {
-                SingleComposer.AddDropDown(actionValues, actionNames, 0, OnActionChanged, BelowCopySet(ref leftBounds, fixedDeltaY: gap), "dropdown-actions");
+                SingleComposer.AddDropDown(actionValues, actionNames, 0, OnActionChanged, BelowCopySet(ref leftBounds, fixedDeltaY: spacing), "actions");
 
                 switch (CurrentButton.Action)
                 {
@@ -153,7 +154,7 @@ public class GuiDialogRadialButtonSettings : GuiDialog
                         break;
 
                     case EnumButtonAction.Commands:
-                        SingleComposer.AddTextArea(BelowCopySet(ref leftBounds, fixedDeltaY: gap).WithFixedHeight(gridHeight), OnCommandCodeChanged, textFont, "commands");
+                        SingleComposer.AddTextArea(BelowCopySet(ref leftBounds, fixedDeltaY: spacing).WithFixedHeight(gridHeight), OnCommandCodeChanged, textFont, "commands");
                         break;
                 }
             }
@@ -161,12 +162,12 @@ public class GuiDialogRadialButtonSettings : GuiDialog
 
             SingleComposer.EndChildElements().Compose();
 
-            SingleComposer.GetTextInput("button-name")?.SetValue(CurrentButton.Name ?? "");
-            SingleComposer.GetTextInput("button-name")?.SetPlaceHolderText("...");
+            SingleComposer.GetTextInput("editname")?.SetValue(CurrentButton.Name ?? "");
+            SingleComposer.GetTextInput("editname")?.SetPlaceHolderText("...");
             SingleComposer.IconListPickerExtendedSetValue("iconpicker", 0);
             SingleComposer.ColorListPickerSetValue("colorpicker", 0);
 
-            SingleComposer.GetDropDown("dropdown-actions")?.SetSelectedIndex((int)CurrentButton.Action);
+            SingleComposer.GetDropDown("actions")?.SetSelectedIndex((int)CurrentButton.Action);
 
             GuiElementTextArea textArea = SingleComposer.GetTextArea("commands");
             textArea?.LoadValue(textArea?.Lineize(string.Join("\r\n", CurrentButton.Commands)));
