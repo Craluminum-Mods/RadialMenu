@@ -1,5 +1,6 @@
 ﻿using Cairo;
 using System.Collections.Generic;
+using System.Linq;
 using Vintagestory.API.Client;
 using Vintagestory.API.Config;
 
@@ -15,6 +16,11 @@ public class GuiDialogRadialMenu : GuiDialog
     public override string ToggleKeyCombinationCode => "radialmenu:radialmenu";
 
     public GuiDialogRadialMenu(ICoreClientAPI capi) : base(capi) { }
+
+    public override bool TryOpen()
+    {
+        return !capi.OpenedGuis.Any(dlg => dlg is GuiDialogRadialButtonSettings) && base.TryOpen();
+    }
 
     public override void OnGuiOpened()
     {
