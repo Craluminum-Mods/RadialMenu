@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Vintagestory.API.Client;
 using Vintagestory.API.Config;
+using Vintagestory.API.MathTools;
 
 namespace RadialMenu;
 
@@ -36,9 +37,16 @@ public class GuiDialogRadialMenu : GuiDialog
     public override void OnKeyDown(KeyEvent args)
     {
         HotKey hotKeyByCode = capi.Input.GetHotKeyByCode(ToggleKeyCombinationCode);
-        if (hotKeyByCode != null && hotKeyByCode.DidPress(args, capi.World, capi.World.Player, allowCharacterControls: true) && IsOpened())
+        if (IsOpened() && hotKeyByCode != null && hotKeyByCode.DidPress(args, capi.World, capi.World.Player, allowCharacterControls: true))
         {
             args.Handled = true;
+            return;
+        }
+
+        if (IsOpened() && args.DidPressNumber(capi, allowCharacterControls: true, out int? number) && number != null)
+        {
+            args.Handled = true;
+            OnButtonClick($"{SubId}/{number}");
             return;
         }
 
@@ -67,6 +75,8 @@ public class GuiDialogRadialMenu : GuiDialog
         double maxOffY = GuiElement.scaled(100);
         int hoverTextWidth = GuiElement.scaledi(250);
 
+        CairoFont numFont = CairoFont.WhiteMediumText().WithStroke(ColorUtil.BlackArgbDouble, 3).WithOrientation(EnumTextOrientation.Center);
+
         Dictionary<string, ElementBounds> buttons = new()
         {
             [$"{SubId}/0"] = GuiExtensions.GetButtonBounds(EnumDialogArea.CenterTop),
@@ -87,11 +97,15 @@ public class GuiDialogRadialMenu : GuiDialog
         SingleComposer = capi.Gui.CreateCompo("radialmenu:radialmenu", mainBounds);
         SingleComposer.BeginChildElements(childBounds);
 
+        int num = 1;
         foreach ((string buttonId, ElementBounds buttonBounds) in buttons)
         {
+            if (num == 10) num = 0;
+
             RadialMenuButton button = Core.GetButton(capi, buttonId);
 
             SingleComposer.AddButton(string.Empty, () => OnButtonClick(buttonId), buttonBounds.FlatCopy(), key: "button-" + buttonId);
+            SingleComposer.AddDynamicText(num.ToString(), numFont, buttonBounds.BelowCopy());
 
             string buttonName = button?.Name ?? buttonId;
             string hoverText = Lang.Get("radialmenu:radialbutton-tooltip", buttonName);
@@ -106,6 +120,7 @@ public class GuiDialogRadialMenu : GuiDialog
             {
                 SingleComposer.AddDynamicCustomDraw(buttonBounds.FlatCopy(), (c, s, cb) => OnButtonIconDraw(buttonId, c, s, cb));
             }
+            num++;
         }
 
         SingleComposer.EndChildElements().Compose();
