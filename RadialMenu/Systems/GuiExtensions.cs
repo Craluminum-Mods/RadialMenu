@@ -1,5 +1,4 @@
 ﻿using Cairo;
-using System;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
@@ -25,27 +24,6 @@ public static class GuiExtensions
             return ElementBounds.FixedSize(size, size).WithAlignment((EnumDialogArea)withAlighment).WithFixedAlignmentOffset(offsetX, offsetY);
         }
         return ElementBounds.FixedSize(size, size).WithFixedAlignmentOffset(offsetX, offsetY);
-    }
-
-    public static GuiComposer AddIconListPickerExtended(this GuiComposer composer, string[] icons, Action<int> onToggle, ElementBounds startBounds, int maxLineWidth, string key = null)
-    {
-        return composer.AddElementListPicker(typeof(GuiElementIconListPickerExtended), icons, onToggle, startBounds, maxLineWidth, key);
-    }
-
-    public static GuiElementIconListPickerExtended GetIconListPickerExtended(this GuiComposer composer, string key)
-    {
-        return (GuiElementIconListPickerExtended)composer.GetElement(key);
-    }
-
-    public static void IconListPickerExtendedSetValue(this GuiComposer composer, string key, int selectedIndex)
-    {
-        int num = 0;
-        GuiElementIconListPickerExtended iconListPicker;
-        while ((iconListPicker = composer.GetIconListPickerExtended(key + "-" + num)) != null)
-        {
-            iconListPicker.SetValue(num == selectedIndex);
-            num++;
-        }
     }
 
     public static void DrawIcon(this RadialMenuButton button, ICoreClientAPI capi, Context context, ImageSurface surface, ElementBounds currentBounds)
