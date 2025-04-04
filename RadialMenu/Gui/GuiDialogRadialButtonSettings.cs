@@ -17,13 +17,8 @@ public class GuiDialogRadialButtonSettings : GuiDialog
 
     int curTab = 0;
 
-    #region Scrollbar
-    ElementBounds? clipBounds;
-    #endregion
-
     #region Iconpicker
     List<string> IconPaths = new();
-    GuiElementIconListPickerExtended? listElem;
     #endregion
 
     protected static GuiTab[] Tabs => new[]
@@ -60,22 +55,7 @@ public class GuiDialogRadialButtonSettings : GuiDialog
     protected void ComposeDialog()
     {
         ClearComposers();
-        IconPaths.Clear();
-
-        #region Iconpicker        
-        IconPaths.Add("");
-        if (!string.IsNullOrEmpty(CurrentButton.IconPath))
-        {
-            IconPaths.Add(CurrentButton.IconPath);
-        }
-
-        List<IAsset> icons = capi.Assets.GetMany("textures/icons/", null, false);
-        foreach (IAsset icon in icons)
-        {
-            string path = icon.Location;
-            IconPaths.Add(path);
-        }
-        #endregion
+        PopulateIcons();
 
         string[] actionNames = Enum.GetNames(typeof(EnumButtonAction)).Select(action => Lang.Get(action)).ToArray();
         string[] actionValues = Enum.GetValues<EnumButtonAction>().Select(action => action.ToString()).ToArray();
@@ -113,7 +93,6 @@ public class GuiDialogRadialButtonSettings : GuiDialog
 
             SingleComposer.AddButton(Lang.Get("general-save"), OnSave, rightBounds.FlatCopy().WithFixedSize(buttonWidth, height), CairoFont.ButtonText(), key: "save");
             SingleComposer.AddButton(Lang.Get("general-delete"), OnDelete, BelowCopySet(ref rightBounds, fixedDeltaY: gap).WithFixedSize(buttonWidth, height), CairoFont.ButtonText(), key: "delete");
-
             #region Name
             if (curTab == 0)
             {
@@ -135,21 +114,7 @@ public class GuiDialogRadialButtonSettings : GuiDialog
                     SingleComposer.AddCustomRender(leftBounds.FlatCopy(), OnButtonIconRender);
                 }
 
-                #region Scrollbar and Iconpicker
-                ElementBounds gridBounds = BelowCopySet(ref leftBounds, fixedDeltaY: gap).WithFixedSize(gridWidth, gridHeight);
-                clipBounds = gridBounds.ForkBoundingParent();
-                ElementBounds insetBounds = gridBounds.FlatCopy().FixedGrow(3).WithFixedOffset(0, 0);
-
-                ElementBounds scrollbarBounds = insetBounds.CopyOffsetedSibling(3 + gridBounds.fixedWidth + 7).WithFixedWidth(20);
-
-                SingleComposer.BeginClip(clipBounds);
-                SingleComposer.AddInset(insetBounds, 3);
-                #region Iconpicker
-                SingleComposer.AddIconListPickerExtended(IconPaths.ToArray(), OnIconSelected, gridBounds.WithFixedSize(colorIconSize + 5, colorIconSize + 5), (int)gridWidth - colorIconSize, "iconpicker");
-                #endregion
-                SingleComposer.EndClip();
-                SingleComposer.AddVerticalScrollbar(OnNewScrollbarValue, scrollbarBounds, "scrollbar");
-                #endregion
+                SingleComposer.AddIconListPickerExtended(IconPaths.ToArray(), OnIconSelected, BelowCopySet(ref leftBounds, fixedDeltaY: gap).WithFixedSize(colorIconSize + 5, colorIconSize + 5), (int)gridWidth - colorIconSize, "iconpicker");
             }
             #endregion
 
@@ -176,13 +141,7 @@ public class GuiDialogRadialButtonSettings : GuiDialog
             }
             #endregion
 
-            listElem = SingleComposer.GetIconListPickerExtended("iconpicker");
-            listElem?.BeforeCalcBounds();
             SingleComposer.EndChildElements().Compose();
-
-            #region Scrollbar
-            UpdateScrollbarBounds();
-            #endregion
 
             SingleComposer.GetTextInput("button-name")?.SetValue(CurrentButton.Name ?? "");
             SingleComposer.GetTextInput("button-name")?.SetPlaceHolderText("...");
@@ -194,29 +153,25 @@ public class GuiDialogRadialButtonSettings : GuiDialog
             textArea?.LoadValue(textArea?.Lineize(string.Join("\r\n", CurrentButton.Commands)));
             textArea?.SetMaxHeight((int)gridHeight);
         }
-        catch {}
+        catch { }
     }
 
-    #region Scrollbar
-    private void OnNewScrollbarValue(float value)
+    private void PopulateIcons()
     {
-        listElem = SingleComposer.GetIconListPickerExtended("iconpicker");
-        if (listElem == null) return;
-        listElem.Bounds.fixedY = 0 - value;
-        listElem.Bounds.CalcWorldBounds();
-    }
+        IconPaths.Clear();
+        IconPaths.Add("");
+        if (!string.IsNullOrEmpty(CurrentButton.IconPath))
+        {
+            IconPaths.Add(CurrentButton.IconPath);
+        }
 
-    void UpdateScrollbarBounds()
-    {
-        if (listElem == null || clipBounds == null) return;
-        SingleComposer.GetScrollbar("scrollbar")?.Bounds.CalcWorldBounds();
-
-        SingleComposer.GetScrollbar("scrollbar")?.SetHeights(
-            (float)clipBounds.fixedHeight,
-            (float)listElem.Bounds.fixedHeight
-        );
+        List<IAsset> icons = capi.Assets.GetMany("textures/icons/", null, false);
+        foreach (IAsset icon in icons)
+        {
+            string path = icon.Location;
+            IconPaths.Add(path);
+        }
     }
-    #endregion
 
     private void OnIconSelected(int selectedIndex)
     {
