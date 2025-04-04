@@ -11,17 +11,19 @@ namespace RadialMenu;
 
 public class GuiDialogRadialButtonSettings : GuiDialog
 {
+    #nullable disable
     public RadialMenuButton CurrentButton = new();
+    #nullable enable
 
     int curTab = 0;
 
     #region Scrollbar
-    ElementBounds clipBounds;
+    ElementBounds? clipBounds;
     #endregion
 
     #region Iconpicker
     List<string> IconPaths = new();
-    GuiElementIconListPickerExtended listElem;
+    GuiElementIconListPickerExtended? listElem;
     #endregion
 
     protected static GuiTab[] Tabs => new[]
@@ -31,7 +33,7 @@ public class GuiDialogRadialButtonSettings : GuiDialog
         new GuiTab() { DataInt = 2, Name = Lang.Get("Actions") }
     };
 
-    public override string ToggleKeyCombinationCode => null;
+    public override string? ToggleKeyCombinationCode => null;
 
     public GuiDialogRadialButtonSettings(ICoreClientAPI capi) : base(capi)
     {
@@ -61,10 +63,12 @@ public class GuiDialogRadialButtonSettings : GuiDialog
         IconPaths.Clear();
 
         #region Iconpicker        
+        IconPaths.Add("");
         if (!string.IsNullOrEmpty(CurrentButton.IconPath))
         {
             IconPaths.Add(CurrentButton.IconPath);
         }
+
         List<IAsset> icons = capi.Assets.GetMany("textures/icons/", null, false);
         foreach (IAsset icon in icons)
         {
@@ -177,13 +181,14 @@ public class GuiDialogRadialButtonSettings : GuiDialog
             SingleComposer.EndChildElements().Compose();
 
             #region Scrollbar
-            updateScrollbarBounds();
+            UpdateScrollbarBounds();
             #endregion
 
-            SingleComposer.GetDropDown("dropdown-actions")?.SetSelectedIndex((int)CurrentButton.Action);
             SingleComposer.GetTextInput("button-name")?.SetValue(CurrentButton.Name ?? "");
             SingleComposer.GetTextInput("button-name")?.SetPlaceHolderText("...");
             SingleComposer.IconListPickerExtendedSetValue("iconpicker", 0);
+
+            SingleComposer.GetDropDown("dropdown-actions")?.SetSelectedIndex((int)CurrentButton.Action);
 
             GuiElementTextArea textArea = SingleComposer.GetTextArea("commands");
             textArea?.LoadValue(textArea?.Lineize(string.Join("\r\n", CurrentButton.Commands)));
@@ -201,21 +206,21 @@ public class GuiDialogRadialButtonSettings : GuiDialog
         listElem.Bounds.CalcWorldBounds();
     }
 
-    void updateScrollbarBounds()
+    void UpdateScrollbarBounds()
     {
-        if (listElem == null) return;
+        if (listElem == null || clipBounds == null) return;
         SingleComposer.GetScrollbar("scrollbar")?.Bounds.CalcWorldBounds();
 
         SingleComposer.GetScrollbar("scrollbar")?.SetHeights(
-            (float)(clipBounds.fixedHeight),
-            (float)(listElem.Bounds.fixedHeight)
+            (float)clipBounds.fixedHeight,
+            (float)listElem.Bounds.fixedHeight
         );
     }
     #endregion
 
     private void OnIconSelected(int selectedIndex)
     {
-        if (IconPaths.Count > selectedIndex)
+        if (IconPaths.Count > selectedIndex && CurrentButton != null)
         {
             CurrentButton.IconPath = IconPaths[selectedIndex];
             SingleComposer?.ReCompose();
@@ -234,8 +239,7 @@ public class GuiDialogRadialButtonSettings : GuiDialog
 
     private void OnActionChanged(string code, bool selected)
     {
-        EnumButtonAction newAction = CurrentButton.Action;
-        if (Enum.TryParse(code, out newAction))
+        if (Enum.TryParse(code, out EnumButtonAction newAction))
         {
             CurrentButton.Action = newAction;
             ComposeDialog();

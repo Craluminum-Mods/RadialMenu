@@ -10,7 +10,7 @@ public class GuiDialogRadialMenu : GuiDialog
     /// <summary>
     /// Button submenu id containing current buttons
     /// </summary>
-    protected string SubId;
+    protected string? SubId;
 
     public override string ToggleKeyCombinationCode => "radialmenu:radialmenu";
 
@@ -123,8 +123,7 @@ public class GuiDialogRadialMenu : GuiDialog
         if (capi.World.Player.Entity.Controls.ShiftKey)
         {
             GuiDialogRadialButtonSettings buttonSettings = new GuiDialogRadialButtonSettings(capi);
-            buttonSettings.CurrentButton = button?.Clone();
-            buttonSettings.CurrentButton ??= new RadialMenuButton() { Id = id };
+            buttonSettings.CurrentButton = button.Clone();
             buttonSettings.TryOpen();
             TryClose();
             return true;

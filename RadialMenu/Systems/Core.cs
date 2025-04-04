@@ -8,7 +8,9 @@ namespace RadialMenu;
 
 public class Core : ModSystem
 {
+    #nullable disable
     public ConfigRadialMenu Config { get; private set; }
+    #nullable enable
 
     public static Core GetInstance(ICoreAPI api) => api.ModLoader.GetModSystem<Core>();
 
@@ -36,7 +38,7 @@ public class Core : ModSystem
 
     public static RadialMenuButton GetButton(ICoreClientAPI capi, string buttonId)
     {
-        return GetButtons(capi).Find(x => x.Id == buttonId);
+        return GetButtons(capi).Find(x => x.Id == buttonId) ?? new RadialMenuButton() { Id = buttonId };
     }
 
     public static void SetButton(ICoreClientAPI capi, RadialMenuButton newButton)
