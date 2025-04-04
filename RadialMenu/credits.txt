@@ -29,6 +29,17 @@ Letter X: https://www.svgrepo.com/svg/396911/letter-x
 Letter Y: https://www.svgrepo.com/svg/396914/letter-y
 Letter Z: https://www.svgrepo.com/svg/396915/letter-z
 
+Number 0: https://www.svgrepo.com/svg/535520/number-0
+Number 1: https://www.svgrepo.com/svg/535524/number-1
+Number 2: https://www.svgrepo.com/svg/535526/number-2
+Number 3: https://www.svgrepo.com/svg/535525/number-3
+Number 4: https://www.svgrepo.com/svg/535532/number-4
+Number 5: https://www.svgrepo.com/svg/535530/number-5
+Number 6: https://www.svgrepo.com/svg/535531/number-6
+Number 7: https://www.svgrepo.com/svg/535536/number-7
+Number 8: https://www.svgrepo.com/svg/535538/number-8
+Number 9: https://www.svgrepo.com/svg/535535/number-9
+
 anvil: https://www.svgrepo.com/svg/320332/anvil
 axe: https://www.svgrepo.com/svg/255667/axe
 biohazard: https://www.svgrepo.com/svg/25807/biohazard-symbol
@@ -52,3 +63,5 @@ shovel: https://www.svgrepo.com/svg/247412/shovel
 signal-tower: https://www.svgrepo.com/svg/41326/tower-with-signal-emission
 spider: https://www.svgrepo.com/svg/352499/spider
 tent: https://www.svgrepo.com/svg/480344/tent-3
+shuffle: https://www.svgrepo.com/svg/127225/shuffle-symbol
+palette: https://www.svgrepo.com/svg/479808/palette-6
