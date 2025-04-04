@@ -1,0 +1,54 @@
+Some icons were drawn with https://www.photopea.com/
+
+Textures
+==============
+Letter A: https://www.svgrepo.com/svg/396890/letter-a
+Letter B: https://www.svgrepo.com/svg/396891/letter-b
+Letter C: https://www.svgrepo.com/svg/396893/letter-c
+Letter D: https://www.svgrepo.com/svg/396892/letter-d
+Letter E: https://www.svgrepo.com/svg/396895/letter-e
+Letter F: https://www.svgrepo.com/svg/396896/letter-f
+Letter G: https://www.svgrepo.com/svg/396894/letter-g
+Letter H: https://www.svgrepo.com/svg/396897/letter-h
+Letter I: https://www.svgrepo.com/svg/396898/letter-i
+Letter J: https://www.svgrepo.com/svg/396901/letter-j
+Letter K: https://www.svgrepo.com/svg/396902/letter-k
+Letter L: https://www.svgrepo.com/svg/396900/letter-l
+Letter M: https://www.svgrepo.com/svg/396899/letter-m
+Letter N: https://www.svgrepo.com/svg/396903/letter-n
+Letter O: https://www.svgrepo.com/svg/396905/letter-o
+Letter P: https://www.svgrepo.com/svg/396904/letter-p
+Letter Q: https://www.svgrepo.com/svg/396907/letter-q
+Letter R: https://www.svgrepo.com/svg/396906/letter-r
+Letter S: https://www.svgrepo.com/svg/396909/letter-s
+Letter T: https://www.svgrepo.com/svg/396908/letter-t
+Letter U: https://www.svgrepo.com/svg/396910/letter-u
+Letter V: https://www.svgrepo.com/svg/396913/letter-v
+Letter W: https://www.svgrepo.com/svg/396912/letter-w
+Letter X: https://www.svgrepo.com/svg/396911/letter-x
+Letter Y: https://www.svgrepo.com/svg/396914/letter-y
+Letter Z: https://www.svgrepo.com/svg/396915/letter-z
+
+anvil: https://www.svgrepo.com/svg/320332/anvil
+axe: https://www.svgrepo.com/svg/255667/axe
+biohazard: https://www.svgrepo.com/svg/25807/biohazard-symbol
+butterfly: https://www.svgrepo.com/svg/368237/butterfly
+campfire: https://www.svgrepo.com/svg/170456/campfire
+chest: https://www.svgrepo.com/svg/321069/locked-chest
+cross: https://icon-icons.com/icon/pharmacy-cross-sign/89249
+crystal: https://icon-icons.com/icon/crystal-growth/39250
+diamond: https://icon-icons.com/icon/cut-diamond/39242
+dollar: https://icon-icons.com/icon/american-dollar-symbol/89179
+dragon: https://icon-icons.com/icon/dragon/195006
+droplet: https://www.svgrepo.com/svg/79433/water-drop
+fish: https://www.svgrepo.com/svg/97643/fish
+flag: https://www.svgrepo.com/svg/149155/flag-fill-shape
+flask: https://www.svgrepo.com/svg/165732/chemistry-lab-instrument
+knife-and-fork: https://icon-icons.com/icon/fork-and-knife-silhouette/73555
+radioactive: https://www.svgrepo.com/svg/65454/radioactive
+seedling: https://www.svgrepo.com/svg/352432/seedling
+shop: https://www.svgrepo.com/svg/479971/shop-1
+shovel: https://www.svgrepo.com/svg/247412/shovel
+signal-tower: https://www.svgrepo.com/svg/41326/tower-with-signal-emission
+spider: https://www.svgrepo.com/svg/352499/spider
+tent: https://www.svgrepo.com/svg/480344/tent-3
