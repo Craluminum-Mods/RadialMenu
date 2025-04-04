@@ -149,7 +149,17 @@ public class GuiDialogRadialMenu : GuiDialog
                 }
                 break;
             case EnumButtonAction.Commands:
-                button.Commands.ForEach(cmd => capi.SendChatMessage(cmd));
+                button.Commands.ForEach(cmd =>
+                {
+                    if (cmd.StartsWith('.'))
+                    {
+                        capi.TriggerChatMessage(cmd);
+                    }
+                    else if (cmd.StartsWith('/'))
+                    {
+                        capi.SendChatMessage(cmd);
+                    }
+                });
                 break;
         }
         return true;
