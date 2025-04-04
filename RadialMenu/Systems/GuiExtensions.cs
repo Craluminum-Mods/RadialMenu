@@ -50,9 +50,9 @@ public static class GuiExtensions
 
     public static void DrawIcon(this RadialMenuButton button, ICoreClientAPI capi, Context context, ImageSurface surface, ElementBounds currentBounds)
     {
-        if (!string.IsNullOrEmpty(button?.IconPath))
+        if (!string.IsNullOrEmpty(button?.IconSvg))
         {
-            if (capi.Assets.TryGet(button.IconPath) is IAsset asset)
+            if (capi.Assets.TryGet(button.IconSvg) is IAsset asset)
             {
                 int color = ColorUtil.FromRGBADoubles(new double[4] { 1.0, 1.0, 1.0, 1.0 });
                 capi.Gui.DrawSvg(
@@ -65,7 +65,7 @@ public static class GuiExtensions
                     color: color);
             }
         }
-        else if (button == null || button.IconPath == null || button.IconString == null)
+        else if (button == null || button.IconSvg == null || button.IconString == null)
         {
             capi.Gui.Icons.DrawIcon(
                 context,

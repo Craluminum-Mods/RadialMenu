@@ -17,9 +17,7 @@ public class GuiDialogRadialButtonSettings : GuiDialog
 
     int curTab = 0;
 
-    #region Iconpicker
-    List<string> IconPaths = new();
-    #endregion
+    List<string> SvgIcons = new();
 
     protected static GuiTab[] Tabs => new[]
     {
@@ -48,7 +46,6 @@ public class GuiDialogRadialButtonSettings : GuiDialog
 
     public override void OnGuiClosed()
     {
-        CurrentButton = null;
         ClearComposers();
     }
 
@@ -103,19 +100,10 @@ public class GuiDialogRadialButtonSettings : GuiDialog
             #region Icon
             if (curTab == 1)
             {
-                SingleComposer.AddButton(string.Empty, onClick: () => true, BelowCopySet(ref leftBounds, fixedDeltaY: gap).WithFixedSize(buttonWidth, buttonWidth));
+                leftBounds = AddButtonPreview(gap, buttonWidth, leftBounds);
 
-                if (CurrentButton.IconStack == null)
-                {
-                    SingleComposer.AddDynamicCustomDraw(leftBounds.FlatCopy(), OnButtonIconDraw);
+                SingleComposer.AddIconListPickerExtended(SvgIcons.ToArray(), OnIconSelected, BelowCopySet(ref leftBounds, fixedDeltaY: gap).WithFixedSize(colorIconSize + 5, colorIconSize + 5), (int)gridWidth - colorIconSize, "iconpicker");
                 }
-                else
-                {
-                    SingleComposer.AddCustomRender(leftBounds.FlatCopy(), OnButtonIconRender);
-                }
-
-                SingleComposer.AddIconListPickerExtended(IconPaths.ToArray(), OnIconSelected, BelowCopySet(ref leftBounds, fixedDeltaY: gap).WithFixedSize(colorIconSize + 5, colorIconSize + 5), (int)gridWidth - colorIconSize, "iconpicker");
-            }
             #endregion
 
             #region Actions
@@ -156,29 +144,45 @@ public class GuiDialogRadialButtonSettings : GuiDialog
         catch { }
     }
 
+    private ElementBounds AddButtonPreview(double gap, double buttonWidth, ElementBounds leftBounds)
+    {
+        SingleComposer.AddButton(string.Empty, onClick: () => true, BelowCopySet(ref leftBounds, fixedDeltaY: gap).WithFixedSize(buttonWidth, buttonWidth));
+
+        if (CurrentButton.IconStack == null)
+        {
+            SingleComposer.AddDynamicCustomDraw(leftBounds.FlatCopy(), OnButtonIconDraw, key: "drawicon");
+        }
+        else
+        {
+            SingleComposer.AddCustomRender(leftBounds.FlatCopy(), OnButtonIconRender);
+        }
+
+        return leftBounds;
+    }
+
     private void PopulateIcons()
     {
-        IconPaths.Clear();
-        IconPaths.Add("");
-        if (!string.IsNullOrEmpty(CurrentButton.IconPath))
+        SvgIcons.Clear();
+        SvgIcons.Add("");
+        if (!string.IsNullOrEmpty(CurrentButton.IconSvg))
         {
-            IconPaths.Add(CurrentButton.IconPath);
+            SvgIcons.Add(CurrentButton.IconSvg);
         }
 
         List<IAsset> icons = capi.Assets.GetMany("textures/icons/", null, false);
         foreach (IAsset icon in icons)
         {
             string path = icon.Location;
-            IconPaths.Add(path);
+            SvgIcons.Add(path);
         }
     }
 
     private void OnIconSelected(int selectedIndex)
     {
-        if (IconPaths.Count > selectedIndex && CurrentButton != null)
+        if (SvgIcons.Count > selectedIndex && CurrentButton != null)
         {
-            CurrentButton.IconPath = IconPaths[selectedIndex];
-            SingleComposer?.ReCompose();
+            CurrentButton.IconSvg = SvgIcons[selectedIndex];
+            SingleComposer.GetCustomDraw("drawicon")?.Redraw();
         }
     }
 

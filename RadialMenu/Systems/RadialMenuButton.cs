@@ -46,7 +46,7 @@ public class RadialMenuButton
     /// Optional file path to a custom SVG icon. Used if neither <see cref="IconStack"/> nor <see cref="IconString"/> are set.
     /// </summary>
     [JsonProperty]
-    public string? IconPath { get; set; }
+    public string? IconSvg { get; set; }
 
     /// <summary>
     /// The hotkey to invoke when <see cref="Action"/> is set to <see cref="EnumButtonAction.Hotkey"/>. Ignored otherwise.
@@ -69,7 +69,7 @@ public class RadialMenuButton
             Action = Action,
             IconStack = IconStack?.Clone(),
             IconString = IconString,
-            IconPath = IconPath,
+            IconSvg = IconSvg,
             Hotkey = Hotkey,
             Commands = Commands.ToList()
         };
