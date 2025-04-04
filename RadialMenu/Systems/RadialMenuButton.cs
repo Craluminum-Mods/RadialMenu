@@ -37,6 +37,12 @@ public class RadialMenuButton
     public JsonItemStack? IconStack { get; set; }
 
     /// <summary>
+    /// The color of this button's icon. White color by default.
+    /// </summary>
+    [JsonProperty]
+    public string? IconColor { get; set; } = "#ffffff";
+
+    /// <summary>
     /// A fallback internal icon string, used if <see cref="IconStack"/> is null.
     /// </summary>
     [JsonProperty]
@@ -68,6 +74,7 @@ public class RadialMenuButton
             Name = Name,
             Action = Action,
             IconStack = IconStack?.Clone(),
+            IconColor = IconColor,
             IconString = IconString,
             IconSvg = IconSvg,
             Hotkey = Hotkey,

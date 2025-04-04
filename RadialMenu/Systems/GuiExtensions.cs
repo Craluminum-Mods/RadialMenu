@@ -28,23 +28,33 @@ public static class GuiExtensions
 
     public static void DrawIcon(this RadialMenuButton button, ICoreClientAPI capi, Context context, ImageSurface surface, ElementBounds currentBounds)
     {
-        if (!string.IsNullOrEmpty(button?.IconSvg))
+        if (!string.IsNullOrEmpty(button?.IconSvg) && capi.Assets.TryGet(button.IconSvg) is IAsset asset)
         {
-            if (capi.Assets.TryGet(button.IconSvg) is IAsset asset)
+            int color = ColorUtil.WhiteArgb;
+
+            if (!string.IsNullOrEmpty(button.IconColor))
             {
-                int color = ColorUtil.FromRGBADoubles(new double[4] { 1.0, 1.0, 1.0, 1.0 });
-                capi.Gui.DrawSvg(
-                    svgAsset: asset,
-                    intoSurface: surface,
-                    posx: (int)(currentBounds.absPaddingX + GuiElement.scaled(4.0)),
-                    posy: (int)(currentBounds.absPaddingY + GuiElement.scaled(4.0)),
-                    width: (int)(currentBounds.InnerWidth - GuiElement.scaled(9.0)),
-                    height: (int)(currentBounds.InnerHeight - GuiElement.scaled(9.0)),
-                    color: color);
+                color = ColorUtil.Hex2Int(button.IconColor);
             }
+
+            capi.Gui.DrawSvg(
+                svgAsset: asset,
+                intoSurface: surface,
+                posx: (int)(currentBounds.absPaddingX + GuiElement.scaled(4.0)),
+                posy: (int)(currentBounds.absPaddingY + GuiElement.scaled(4.0)),
+                width: (int)(currentBounds.InnerWidth - GuiElement.scaled(9.0)),
+                height: (int)(currentBounds.InnerHeight - GuiElement.scaled(9.0)),
+                color: color);
         }
-        else if (button == null || button.IconSvg == null || button.IconString == null)
+        else if (button == null || button.IconString == null)
         {
+            double[] color = ColorUtil.WhiteArgbDouble;
+
+            if (!string.IsNullOrEmpty(button?.IconColor))
+            {
+                color = ColorUtil.Hex2Doubles(button.IconColor);
+            }
+
             capi.Gui.Icons.DrawIcon(
                 context,
                 button?.IconString ?? "plus",
@@ -52,7 +62,7 @@ public static class GuiExtensions
                 currentBounds.absPaddingY + GuiElement.scaled(4.0),
                 currentBounds.InnerWidth - GuiElement.scaled(9.0),
                 currentBounds.InnerHeight - GuiElement.scaled(9.0),
-                ColorUtil.WhiteArgbDouble);
+                color);
         }
     }
 

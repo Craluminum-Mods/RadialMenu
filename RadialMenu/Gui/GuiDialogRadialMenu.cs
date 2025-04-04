@@ -59,6 +59,7 @@ public class GuiDialogRadialMenu : GuiDialog
         double minOffY = GuiElement.scaled(50);
         double middleOffY = GuiElement.scaled(75);
         double maxOffY = GuiElement.scaled(100);
+        int hoverTextWidth = GuiElement.scaledi(250);
 
         Dictionary<string, ElementBounds> buttons = new()
         {
@@ -89,7 +90,7 @@ public class GuiDialogRadialMenu : GuiDialog
             string buttonName = button?.Name ?? buttonId;
             string hoverText = Lang.Get("radialmenu:radialbutton-tooltip", buttonName);
 
-            SingleComposer.AddAutoSizeHoverText(hoverText, CairoFont.WhiteSmallText(), 250, buttonBounds.FlatCopy());
+            SingleComposer.AddAutoSizeHoverText(hoverText, CairoFont.WhiteSmallText(), hoverTextWidth, buttonBounds.FlatCopy());
 
             if (button != null && button.IconStack != null)
             {

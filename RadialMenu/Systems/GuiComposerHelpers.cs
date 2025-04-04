@@ -3,7 +3,7 @@ using Vintagestory.API.Client;
 
 namespace RadialMenu;
 
-public static class GuiElementExtensions
+public static class GuiComposerHelpers
 {
     public static GuiComposer AddIconListPickerExtended(this GuiComposer composer, string[] icons, Action<int> onToggle, ElementBounds startBounds, int maxLineWidth, string key = null)
     {
