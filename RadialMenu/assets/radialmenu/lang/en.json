@@ -1,5 +1,6 @@
 {
     "radialbutton-tooltip": "{0}<br><br>Hold <hk>Shift</hk> to open button settings",
     "radialbutton-settings": "Radial Button Settings ({0})",
-    "hotkey-radialmenu": "Radial Menu"
+    "hotkey-radialmenu": "Radial Menu",
+    "ingameerror-notsupportedkey": "Hotkey is not supported. Try assign another hotkey!"
 }

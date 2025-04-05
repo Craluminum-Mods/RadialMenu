@@ -12,12 +12,13 @@ namespace RadialMenu;
 
 public class GuiDialogRadialButtonSettings : GuiDialog
 {
+    public ICoreClientAPI clientApi => capi;
     #nullable disable
     public RadialMenuButton CurrentButton = new();
     #nullable enable
 
     int curTab = 0;
-
+    GuiModuleActionHotkey? guiModuleActionHotkey;
     List<string> SvgIcons = new();
     List<int> Colors = new();
 
@@ -38,16 +39,7 @@ public class GuiDialogRadialButtonSettings : GuiDialog
 
     public override string? ToggleKeyCombinationCode => null;
 
-    public GuiDialogRadialButtonSettings(ICoreClientAPI capi) : base(capi)
-    {
-        capi.World.RegisterGameTickListener(Tick500ms, 500);
-    }
-
-    private void Tick500ms(float deltaTime)
-    {
-        //if (CurrentButton == null) return;
-        //ComposeDialog();
-    }
+    public GuiDialogRadialButtonSettings(ICoreClientAPI capi) : base(capi) { }
 
     public override void OnGuiOpened()
     {
@@ -56,6 +48,7 @@ public class GuiDialogRadialButtonSettings : GuiDialog
 
     public override void OnGuiClosed()
     {
+        guiModuleActionHotkey?.Dispose();
         ClearComposers();
     }
 
@@ -151,6 +144,9 @@ public class GuiDialogRadialButtonSettings : GuiDialog
                         break;
 
                     case EnumButtonAction.Hotkey:
+                        guiModuleActionHotkey?.Dispose();
+                        guiModuleActionHotkey = new GuiModuleActionHotkey(this, leftBounds, rightBounds);
+                        guiModuleActionHotkey?.Compose();
                         break;
 
                     case EnumButtonAction.Commands:
@@ -249,6 +245,8 @@ public class GuiDialogRadialButtonSettings : GuiDialog
             CurrentButton.Action = newAction;
             ComposeDialog();
         }
+
+        guiModuleActionHotkey?.Dispose();
     }
 
     private void OnCommandCodeChanged(string text)

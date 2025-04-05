@@ -167,7 +167,10 @@ public class GuiDialogRadialMenu : GuiDialog
             case EnumButtonAction.Hotkey:
                 if (button.Hotkey != null && capi.Input.GetHotKeyByCode(button.Hotkey) is HotKey hotkey && hotkey != null)
                 {
-                    hotkey.Handler.Invoke(hotkey.CurrentMapping);
+                    if (hotkey.Handler?.Invoke(hotkey.CurrentMapping) == null)
+                    {
+                        capi.TriggerIngameError(this, "radialmenu:ingameerror-notsupportedkey", "radialmenu:ingameerror-notsupportedkey");
+                    }
                 }
                 break;
             case EnumButtonAction.Commands:
