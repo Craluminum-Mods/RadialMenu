@@ -1,0 +1,6 @@
+{
+    "radialbutton-tooltip": "{0}<br><br>Утримуйте <hk>shift</hk> щоб налаштувати кнопку",
+    "radialbutton-settings": "Налаштування кнопки ({0})",
+    "hotkey-radialmenu": "Радіальне меню",
+    "ingameerror-notsupportedkey": "Гаряча клавіша не підтримується. Спробуйте призначити іншу гарячу клавішу!"
+}

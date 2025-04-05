@@ -4,7 +4,7 @@
   "modid": "radialmenu",
   "name": "Radial Menu",
   "authors": [ "Craluminum2413" ],
-  "description": "Radial menu to assign hotkeys and commands",
+  "description": "Radial menu with 10 options that support hotkeys, commands and submenus.",
   "version": "1.0.0",
   "dependencies": {
     "game": "1.20.0"
