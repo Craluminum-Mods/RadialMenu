@@ -25,7 +25,7 @@ public class Core : ModSystem
 
     public override void StartClientSide(ICoreClientAPI capi)
     {
-        capi.Input.RegisterHotKeyFirst("radialmenu:radialmenu", Lang.Get("radialmenu:hotkey-radialmenu"), GlKeys.R, HotkeyType.GUIOrOtherControls);
+        capi.Input.RegisterHotKey("radialmenu:radialmenu", Lang.Get("radialmenu:hotkey-radialmenu"), GlKeys.R, HotkeyType.GUIOrOtherControls);
         capi.Gui.RegisterDialog(new GuiDialogRadialMenu(capi));
 
         Mod.Logger.Event("started '{0}' mod", Mod.Info.Name);
